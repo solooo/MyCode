@@ -1,4 +1,4 @@
-package solooo.mycode.netty;
+package solooo.mycode.netty.discard;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

@@ -1,4 +1,4 @@
-package solooo.mycode.netty;
+package solooo.mycode.netty.discard;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerAdapter;

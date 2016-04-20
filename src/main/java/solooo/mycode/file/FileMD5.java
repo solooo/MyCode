@@ -1,0 +1,49 @@
+package solooo.mycode.file;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.poi.util.IOUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.security.MessageDigest;
+import java.util.Date;
+
+/**
+ * 计算文件md5
+ * Created by Administrator on 2016/4/20.
+ */
+public class FileMD5 {
+    public static String getMd5ByFile(File file) throws FileNotFoundException {
+        String value = null;
+        try(FileInputStream in = new FileInputStream(file)) {
+            MappedByteBuffer byteBuffer = in.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, file.length());
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            md5.update(byteBuffer);
+            BigInteger bi = new BigInteger(1, md5.digest());
+            value = bi.toString(16);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+    public static void main(String[] args) throws IOException {
+        long time = new Date().getTime();
+        String path="D:\\jdk-8u77-windows-i586.exe";
+
+        String v = getMd5ByFile(new File(path));
+        System.out.println("MD5:"+v.toUpperCase());
+
+        FileInputStream fis= new FileInputStream(path);
+        String md5 = DigestUtils.md5Hex(IOUtils.toByteArray(fis));
+        IOUtils.closeQuietly(fis);
+        System.out.println("MD5:"+md5);
+        System.out.println("耗时：" + (new Date().getTime() - time));
+        //System.out.println("MD5:"+DigestUtils.md5Hex("WANGQIUYUN"));
+    }
+}

@@ -27,7 +27,7 @@ public class TraveralFile {
             public FileVisitResult postVisitDirectory(Path dir, IOException e)
                     throws IOException {
                 if (e == null) {
-                    System.out.println("postVisitDirectory: " + dir.getFileName());
+                    System.out.println("postVisitDirectory: " + dir);
                     return FileVisitResult.CONTINUE;
                 } else {
                     // directory iteration failed
