@@ -19,10 +19,9 @@ import java.util.Properties;
 public class ConsumerSample implements Runnable {
 
     public static void main(String[] args) {
-        for (int i = 0; i < 1; i++) {
-//            new Thread(new ConsumerSample()).start();
+        for (int i = 0; i < 2; i++) {
+            new Thread(new ConsumerSample()).start();
         }
-        new ConsumerSample().run();
 
     }
 
@@ -30,6 +29,7 @@ public class ConsumerSample implements Runnable {
     public void run() {
         Properties props = new Properties();
         props.put("bootstrap.servers", "192.168.1.22:9092,192.168.1.23:9092");
+        props.put("group.id", "test");
         props.put("enable.auto.commit", "true");
         props.put("auto.commit.interval.ms", "1000");
         props.put("session.timeout.ms", "30000");
@@ -39,11 +39,10 @@ public class ConsumerSample implements Runnable {
         consumer.subscribe(Arrays.asList("pj-test"));
 
         while(true) {
-            System.out.println("-----------------------------------------------------");
-            ConsumerRecords<String, String> records = consumer.poll(100);
-            System.out.println(records.count());
+            ConsumerRecords<String, String> records = consumer.poll(1000);
             for (ConsumerRecord<String, String> record : records) {
-                System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
+                System.out.printf("partition = %d, offset = %d, key = %s, value = %s", record.partition(), record.offset(), record.key(), record.value());
+                System.out.println();
             }
         }
     }
