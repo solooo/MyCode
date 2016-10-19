@@ -29,7 +29,7 @@ public class CardTest extends JFrame {
     private JButton lasButton;
 
     public CardTest() {
-        super("CardLayout Test --by  Alog2012");
+        super("CardLayout MyTest --by  Alog2012");
         init();
     }
 

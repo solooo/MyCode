@@ -344,7 +344,7 @@ public class MainFrame extends javax.swing.JFrame {
             public void run() {
                 try {
 //                    BeautyEyeLNFHelper.frameBorderStyle = BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated;
-                    org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
+//                    org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
