@@ -12,7 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<poi.version>3.14</poi.version>
+		<poi.version>3.17</poi.version>
 		<spring.version>4.2.5.RELEASE</spring.version>
 	</properties>
 
@@ -113,12 +113,7 @@
 			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
+
 
 		<!-- ssh 远程命令 -->
 		<dependency>
@@ -143,6 +138,11 @@
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-common</artifactId>
 			<version>2.6.4</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
 		</dependency>
 
 

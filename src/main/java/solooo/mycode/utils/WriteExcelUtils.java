@@ -46,7 +46,7 @@ public class WriteExcelUtils {
             row = sheet.createRow(0);
             // 第四步，创建单元格，并设置值表头 设置表头居中
             HSSFCellStyle style = wb.createCellStyle();
-            style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
+//            style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
             for (int i = 0; i < title.length; i++) {
                 cell = row.createCell(i);
                 cell.setCellValue(title[i]);
