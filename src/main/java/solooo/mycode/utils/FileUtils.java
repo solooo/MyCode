@@ -14,9 +14,9 @@ import java.nio.channels.FileChannel;
  * Created by Administrator on 2016/4/13.
  */
 public class FileUtils {
-    private Logger logger = LoggerFactory.getLogger(FileUtils.class);
+    private static Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
-    private String rootPath = "/opt/file/";
+    private static String rootPath = "E:/opt/file/";
 
     @SuppressWarnings("resource")
     private void copyFile(FileInputStream sourceInputStream, File dest) throws IOException {
@@ -33,7 +33,8 @@ public class FileUtils {
      * @param fileName
      * @return
      */
-    public void createExcel(SXSSFWorkbook workbook, String fileName) {
+    public static void createExcel(SXSSFWorkbook workbook, String fileName) {
+
         if (!rootPath.endsWith(File.separator)) {
             rootPath += File.separator;
         }
@@ -44,6 +45,11 @@ public class FileUtils {
         file.getParentFile().mkdirs();
         try {
             workbook.write(new FileOutputStream(file));
+            System.out.println("-------------------------------------------");
+            System.out.println("file name: " + file.getName());
+            System.out.println("file length: " + file.length());
+            System.out.println("file absolutePath: " + file.getAbsolutePath());
+            System.out.println("-------------------------------------------");
             // 文件信息保存入库
 //            FileUpload fileUpload = this.saveFileInfo(fileName, relPath);
 //            return fileUpload.getId();
