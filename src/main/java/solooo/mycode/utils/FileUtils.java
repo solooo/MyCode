@@ -30,10 +30,8 @@ public class FileUtils {
     /**
      * 创建excel文件
      * @param workbook
-     * @param fileName
-     * @return
      */
-    public static void createExcel(SXSSFWorkbook workbook, String fileName) {
+    public static void saveToDisk(SXSSFWorkbook workbook) {
 
         if (!rootPath.endsWith(File.separator)) {
             rootPath += File.separator;

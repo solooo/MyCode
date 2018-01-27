@@ -30,7 +30,7 @@ public class WriteExcelUtils {
      * @param titleMap 标题头
      * @return
      */
-   public static SXSSFWorkbook exportExcel(List<?> dataList, LinkedHashMap<String, String> titleMap) {
+   public static SXSSFWorkbook createExcel(List<?> dataList, LinkedHashMap<String, String> titleMap) {
         SXSSFWorkbook wb = new SXSSFWorkbook();
         SXSSFSheet sheet = wb.createSheet();
         sheet.trackAllColumnsForAutoSizing();

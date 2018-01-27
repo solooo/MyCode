@@ -27,8 +27,8 @@ public class WriteExcelUtilsTest {
         LinkedHashMap<String, String> titleMap = new LinkedHashMap<>();
         titleMap.put("index", "序号");
 
-        SXSSFWorkbook workbook = WriteExcelUtils.exportExcel(datas, titleMap);
-        FileUtils.createExcel(workbook, null);
+        SXSSFWorkbook workbook = WriteExcelUtils.createExcel(datas, titleMap);
+        FileUtils.saveToDisk(workbook);
     }
 
 }
