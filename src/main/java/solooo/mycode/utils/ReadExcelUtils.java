@@ -4,9 +4,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 import java.io.File;
 import java.io.IOException;
@@ -179,10 +181,23 @@ public class ReadExcelUtils {
      * @author PeiJian
      */
     private Object getCellContent(Sheet sheet, int row, int column) {
+        if (isMergedRegion(sheet, row, column)) {
+            return getMergedRegionValue(sheet, row, column);
+        } else {
+            Cell cell = sheet.getRow(row).getCell(column);
+            return getCellValue(cell);
+        }
 
+    }
+
+    /**
+     * 获取单元格值
+     * @param cell
+     * @return
+     */
+    private Object getCellValue(Cell cell) {
         Object content = "";
         DecimalFormat df = new DecimalFormat("0");
-        Cell cell = sheet.getRow(row).getCell(column);
         if (cell == null) {
             return content;
         }
@@ -224,5 +239,91 @@ public class ReadExcelUtils {
             title = String.valueOf(this.getCellContent(sheet, titleRowNum, column));
         }
         return title;
+    }
+
+    /**
+     * 判断sheet页中是否含有合并单元格
+     * @param sheet
+     * @return
+     */
+    private boolean hasMerged(Sheet sheet) {
+        return sheet.getNumMergedRegions() > 0;
+    }
+
+    /**
+     * 判断指定的单元格是否是合并单元格
+     * @param sheet
+     * @param row 行下标
+     * @param column 列下标
+     * @return
+     */
+    private boolean isMergedRegion(Sheet sheet, int row, int column) {
+        int sheetMergeCount = sheet.getNumMergedRegions();
+        for (int i = 0; i < sheetMergeCount; i++) {
+            CellRangeAddress range = sheet.getMergedRegion(i);
+            int firstColumn = range.getFirstColumn();
+            int lastColumn = range.getLastColumn();
+            int firstRow = range.getFirstRow();
+            int lastRow = range.getLastRow();
+            if(row >= firstRow && row <= lastRow){
+                if(column >= firstColumn && column <= lastColumn){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 判断合并了行
+     * @param sheet
+     * @param row
+     * @param column
+     * @return
+     */
+    private boolean isMergedRow(Sheet sheet,int row ,int column) {
+        int sheetMergeCount = sheet.getNumMergedRegions();
+        for (int i = 0; i < sheetMergeCount; i++) {
+            CellRangeAddress range = sheet.getMergedRegion(i);
+            int firstColumn = range.getFirstColumn();
+            int lastColumn = range.getLastColumn();
+            int firstRow = range.getFirstRow();
+            int lastRow = range.getLastRow();
+            if(row == firstRow && row == lastRow){
+                if(column >= firstColumn && column <= lastColumn){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 获取合并单元格的值
+     * @param sheet
+     * @param row
+     * @param column
+     * @return
+     */
+    public Object getMergedRegionValue(Sheet sheet ,int row , int column){
+        int sheetMergeCount = sheet.getNumMergedRegions();
+
+        for(int i = 0 ; i < sheetMergeCount ; i++){
+            CellRangeAddress ca = sheet.getMergedRegion(i);
+            int firstColumn = ca.getFirstColumn();
+            int lastColumn = ca.getLastColumn();
+            int firstRow = ca.getFirstRow();
+            int lastRow = ca.getLastRow();
+
+            if(row >= firstRow && row <= lastRow){
+                if(column >= firstColumn && column <= lastColumn){
+                    Row fRow = sheet.getRow(firstRow);
+                    Cell fCell = fRow.getCell(firstColumn);
+                    return getCellValue(fCell) ;
+                }
+            }
+        }
+
+        return null ;
     }
 }
