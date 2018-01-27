@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -140,7 +141,7 @@ public class ReadExcelUtils {
         totalRows = sheet.getLastRowNum();
         totalColumns = sheet.getRow(titleRowNum).getLastCellNum();
         for (int i = titleRowNum; i <= totalRows; i++) {
-            Map<String, Object> map = new HashMap<>();
+            Map<String, Object> map = new LinkedHashMap<>();
             for (int j = 0; j < totalColumns; j++) {
                 String title = this.getTitle(sheet, j);
                 Object content = getCellContent(sheet, i, j);
