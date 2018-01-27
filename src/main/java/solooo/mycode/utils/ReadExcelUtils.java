@@ -62,6 +62,15 @@ public class ReadExcelUtils {
     private int titleRowNum = 0;
 
     /**
+     * close workbook
+     */
+    private void close() {
+        try {
+            this.workbook.close();
+        } catch (IOException ignored) {}
+    }
+
+    /**
      * 接收File对象构造函数
      *
      * @param file
@@ -70,7 +79,6 @@ public class ReadExcelUtils {
      */
     public ReadExcelUtils(File file) throws InvalidFormatException, IOException {
         this.workbook = WorkbookFactory.create(file);
-
     }
 
     /**
@@ -82,7 +90,6 @@ public class ReadExcelUtils {
      */
     public ReadExcelUtils(InputStream is) throws InvalidFormatException, IOException {
         this.workbook = WorkbookFactory.create(is);
-
     }
 
     /**
@@ -91,7 +98,9 @@ public class ReadExcelUtils {
      */
     public List<List<Object>> getContent() {
         Sheet sheet = this.workbook.getSheetAt(0);
-        return getContent(sheet);
+        List<List<Object>> content = getContent(sheet);
+        this.close();
+        return content;
     }
 
     /**
@@ -112,7 +121,7 @@ public class ReadExcelUtils {
      * @return List<Map<String, Object>>
      * @author PeiJian
      */
-    public List<Map<String, Object>> getTitleAndContent(int sheetAt) {
+    private List<Map<String, Object>> getTitleAndContent(int sheetAt) {
         Sheet sheet = this.workbook.getSheetAt(sheetAt);
         return getTitleAndContent(sheet);
     }
@@ -124,7 +133,7 @@ public class ReadExcelUtils {
      * @return List<Map<String, Object>>
      * @author PeiJian
      */
-    public List<Map<String, Object>> getTitleAndContent(String sheetName) {
+    private List<Map<String, Object>> getTitleAndContent(String sheetName) {
         Sheet sheet = this.workbook.getSheet(sheetName);
         return getTitleAndContent(sheet);
     }
@@ -137,7 +146,7 @@ public class ReadExcelUtils {
      * @return List<Map<String, Object>>
      * @author PeiJian
      */
-    public List<Map<String, Object>> getTitleAndContent(Sheet sheet) {
+    private List<Map<String, Object>> getTitleAndContent(Sheet sheet) {
         totalRows = sheet.getLastRowNum();
         totalColumns = sheet.getRow(titleRowNum).getLastCellNum();
         for (int i = titleRowNum; i <= totalRows; i++) {
@@ -149,6 +158,8 @@ public class ReadExcelUtils {
             }
             dataMapList.add(map);
         }
+        // 内容获取完成，关闭文件
+        this.close();
         return dataMapList;
     }
 
@@ -157,7 +168,7 @@ public class ReadExcelUtils {
      * @param sheet
      * @return
      */
-    public List<List<Object>> getContent(Sheet sheet) {
+    private List<List<Object>> getContent(Sheet sheet) {
         List<List<Object>> dataList = new ArrayList<>();
         totalRows = sheet.getLastRowNum();
         totalColumns = sheet.getRow(titleRowNum).getLastCellNum();
@@ -306,7 +317,7 @@ public class ReadExcelUtils {
      * @param column
      * @return
      */
-    public Object getMergedRegionValue(Sheet sheet ,int row , int column){
+    private Object getMergedRegionValue(Sheet sheet ,int row , int column){
         int sheetMergeCount = sheet.getNumMergedRegions();
 
         for(int i = 0 ; i < sheetMergeCount ; i++){

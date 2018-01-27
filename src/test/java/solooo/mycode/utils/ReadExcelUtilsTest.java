@@ -23,6 +23,7 @@ public class ReadExcelUtilsTest {
     public void getContentList() throws Exception {
         ReadExcelUtils readExcelUtils = new ReadExcelUtils(new File("E:\\资金项目汇总表.xls"));
         List<Map<String, Object>> contentList = readExcelUtils.getTitleAndContent();
+
         for (Map<String, Object> map : contentList) {
             for (Map.Entry<String, Object> entry : map.entrySet()) {
                 System.out.print(entry.getValue() + "|");
