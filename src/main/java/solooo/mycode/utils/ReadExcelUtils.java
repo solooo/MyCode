@@ -59,7 +59,7 @@ public class ReadExcelUtils {
     /**
      * 模板中标题所在行
      */
-    private int titleRowNum = 0;
+    private Integer titleRowNum;
 
     /**
      * close workbook
@@ -148,11 +148,18 @@ public class ReadExcelUtils {
      */
     private List<Map<String, Object>> getTitleAndContent(Sheet sheet) {
         totalRows = sheet.getLastRowNum();
-        totalColumns = sheet.getRow(titleRowNum).getLastCellNum();
-        for (int i = titleRowNum; i <= totalRows; i++) {
+        totalColumns = sheet.getRow(0).getLastCellNum();
+        System.out.println("totalRows: " + totalRows + " totalColumns: " + totalColumns);
+        for (int i = 0; i <= totalRows; i++) {
+            String key = (String) getCellContent(sheet, i, 0);
+            if (titleRowNum == null) {
+                // 默认首次出现第一列单元格内容是“序号”的行做为标题行
+                titleRowNum = "序号".equalsIgnoreCase(key) ? i : null;
+                continue;
+            }
             Map<String, Object> map = new LinkedHashMap<>();
             for (int j = 0; j < totalColumns; j++) {
-                String title = this.getTitle(sheet, j);
+                String title = this.getTitle(sheet, titleRowNum, j);
                 Object content = getCellContent(sheet, i, j);
                 map.put(title, content);
             }
@@ -172,7 +179,7 @@ public class ReadExcelUtils {
         List<List<Object>> dataList = new ArrayList<>();
         totalRows = sheet.getLastRowNum();
         totalColumns = sheet.getRow(titleRowNum).getLastCellNum();
-        for (int i = titleRowNum; i <= totalRows; i++) {
+        for (int i = 0; i <= totalRows; i++) {
             List<Object> list = new ArrayList<>();
             for (int j = 0; j < totalColumns; j++) {
                 Object content = getCellContent(sheet, i, j);
@@ -245,10 +252,10 @@ public class ReadExcelUtils {
      * @return String
      * @author PeiJian
      */
-    private String getTitle(Sheet sheet, int column) {
+    private String getTitle(Sheet sheet, int row, int column) {
         String title = titleMap.get(column);
         if (StringUtils.isBlank(title)) {
-            title = String.valueOf(this.getCellContent(sheet, titleRowNum, column));
+            title = String.valueOf(this.getCellContent(sheet, row, column));
         }
         return title;
     }

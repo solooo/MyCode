@@ -26,7 +26,7 @@ public class ReadExcelUtilsTest {
 
         for (Map<String, Object> map : contentList) {
             for (Map.Entry<String, Object> entry : map.entrySet()) {
-                System.out.print(entry.getValue() + "|");
+                System.out.print(entry.getKey() + "=" + entry.getValue() + "|");
             }
             System.out.println("");
         }
