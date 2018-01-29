@@ -149,7 +149,6 @@ public class ReadExcelUtils {
     private List<Map<String, Object>> getTitleAndContent(Sheet sheet) {
         totalRows = sheet.getLastRowNum();
         totalColumns = sheet.getRow(0).getLastCellNum();
-        System.out.println("totalRows: " + totalRows + " totalColumns: " + totalColumns);
         for (int i = 0; i <= totalRows; i++) {
             String key = (String) getCellContent(sheet, i, 0);
             if (titleRowNum == null) {
