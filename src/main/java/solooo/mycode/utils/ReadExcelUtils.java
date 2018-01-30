@@ -13,7 +13,6 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -214,10 +213,9 @@ public class ReadExcelUtils {
      * @return
      */
     private Object getCellValue(Cell cell) {
-        Object content = "";
-        DecimalFormat df = new DecimalFormat("0");
+        Object content;
         if (cell == null) {
-            return content;
+            return null;
         }
 
         switch (cell.getCellTypeEnum()) {
@@ -225,7 +223,7 @@ public class ReadExcelUtils {
             if (DateUtil.isCellDateFormatted(cell)) {
                 content = cell.getDateCellValue(); // 日期类型
             } else {
-                content = df.format(cell.getNumericCellValue()); // 普通数字
+                content = String.valueOf(cell.getNumericCellValue()); // 普通数字返回字符串
             }
             break;
         case FORMULA:
