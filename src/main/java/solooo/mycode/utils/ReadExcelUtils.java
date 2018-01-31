@@ -176,7 +176,7 @@ public class ReadExcelUtils {
     private List<List<Object>> getContent(Sheet sheet) {
         List<List<Object>> dataList = new ArrayList<>();
         totalRows = sheet.getLastRowNum();
-        totalColumns = sheet.getRow(titleRowNum).getLastCellNum();
+        totalColumns = sheet.getRow(0).getLastCellNum();
         for (int i = 0; i <= totalRows; i++) {
             List<Object> list = new ArrayList<>();
             for (int j = 0; j < totalColumns; j++) {
